@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#090a0d"><title>NightBot</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#090a0d;color:#f4f4f5;font:16px system-ui,sans-serif}
+main{max-width:650px;margin:auto;padding:14px 14px 36px}header{display:flex;justify-content:space-between;align-items:center;padding:10px 3px 18px}
+.logo{font-weight:950;letter-spacing:4px;font-size:23px}.live{font-size:11px;color:#b8e8c7;border:1px solid #42634e;padding:6px 10px;border-radius:20px}
+.banner{width:100%;display:block;object-fit:cover;border:1px solid #373941;border-radius:16px;margin-bottom:16px}
+.welcome{aspect-ratio:1536/640}.scripts-banner{aspect-ratio:1536/640;margin:10px 0 15px}
+h1{font-size:25px;margin:5px 0 8px}.sub{color:#a1a1aa;font-size:13px;line-height:1.5}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0}
+button{font:inherit;color:#eee;background:linear-gradient(145deg,#252830,#15171b);border:1px solid #393d47;border-radius:14px;padding:16px;text-align:left;cursor:pointer}
+.tile{min-height:94px;display:flex;flex-direction:column;justify-content:space-between}.tile b{font-size:14px}.tile span{font-size:23px}
+.panel{display:none;background:#17191e;border:1px solid #393d47;border-radius:16px;padding:15px;margin-top:16px}.panel.show{display:block}
+.item{padding:12px 0;border-bottom:1px solid #343740}.item:last-child{border:0}.item h3{font-size:15px;margin:0 0 8px}
+.code{font:12px/1.5 monospace;overflow-wrap:anywhere;background:#090a0d;border:1px solid #343740;border-radius:10px;padding:12px;color:#e5e7eb}
+.copy{width:100%;text-align:center;background:#d6d8df;color:#111;margin-top:8px;font-weight:800}
+.row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #343740;gap:10px}.muted{color:#a1a1aa;font-size:13px}
+footer{text-align:center;color:#777b85;font-size:10px;letter-spacing:2px;margin-top:26px}
+</style></head>
+<body><main>
+<header><div class="logo">NIGHTBOT</div><div class="live">● ONLINE</div></header>
+<img class="banner welcome" src="welcome.jpg" alt="NightBot Welcome banner">
+<h1 id="hello">Добро пожаловать</h1><p class="sub">Твой центр скриптов и игровых инструментов.</p>
+<div class="grid">
+<button class="tile" onclick="show('scripts')"><span>🎮</span><b>СКРИПТЫ</b><small class="muted">Каталог игр</small></button>
+<button class="tile" onclick="show('profile')"><span>👤</span><b>ПРОФИЛЬ</b><small class="muted">Твой Telegram</small></button>
+<button class="tile" onclick="openUrl('https://www.roblox.com/share?code=dc4cf63603a1194690ca5c853a73301b&type=Server')"><span>🌐</span><b>СЕРВЕР</b><small class="muted">Roblox private server</small></button>
+<button class="tile" onclick="openUrl('https://t.me/kazakhpaster')"><span>💬</span><b>ПОДДЕРЖКА</b><small class="muted">Связь с админом</small></button>
+</div>
+<section id="scripts" class="panel"><img class="banner scripts-banner" src="scripts.jpg" alt="Скрипты тут"><h2>Каталог скриптов</h2><div id="list"></div></section>
+<section id="profile" class="panel"><h2>Профиль</h2><div class="row"><span class="muted">Имя</span><b id="name">Гость</b></div><div class="row"><span class="muted">Username</span><b id="username">—</b></div><div class="row"><span class="muted">Telegram ID</span><b id="uid">—</b></div></section>
+<footer>NIGHTBOT • DARK SILVER EDITION</footer></main>
+<script>
+const tg=window.Telegram?.WebApp;if(tg){tg.ready();tg.expand()}
+const u=tg?.initDataUnsafe?.user;if(u){document.getElementById('hello').textContent='Привет, '+(u.first_name||'игрок')+'!';document.getElementById('name').textContent=u.first_name||'—';document.getElementById('username').textContent=u.username?'@'+u.username:'—';document.getElementById('uid').textContent=u.id||'—'}
+const scripts=[['Block Strike Mobile','loadstring(game:HttpGet("https://cdn.luaprotect.dev/u/515537/GN3nNaqCavd1QQrx"))()'],['Block Strike PC','loadstring(game:HttpGet("https://cdn.luaprotect.dev/u/515537/nrfg0aVao8E4b2r8"))()'],['Murder Mystery 2 PC','loadstring(game:HttpGet("https://pastefy.app/7exkehWJ/raw"))()']];
+const list=document.getElementById('list');scripts.forEach(([name,code])=>{let d=document.createElement('div');d.className='item';let h=document.createElement('h3');h.textContent=name;let c=document.createElement('div');c.className='code';c.textContent=code;let b=document.createElement('button');b.className='copy';b.textContent='КОПИРОВАТЬ LOADSTRING';b.onclick=async()=>{try{await navigator.clipboard.writeText(code);b.textContent='СКОПИРОВАНО ✓'}catch(e){b.textContent='Скопируй команду вручную'}};d.append(h,c,b);list.append(d)});
+function show(id){document.querySelectorAll('.panel').forEach(x=>x.classList.remove('show'));document.getElementById(id).classList.add('show');document.getElementById(id).scrollIntoView({behavior:'smooth'})}
+function openUrl(url){if(tg)tg.openLink(url);else location.href=url}
+</script></body></html>
